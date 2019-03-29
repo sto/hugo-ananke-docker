@@ -1,0 +1,10 @@
+= Hugo Ananke Theme exampleSite in Docker
+Sergio Talens-Oliag <sto@iti.es>
+:url-docker: https://docker.io/
+:url-hugo: https://gohugo.io/ 
+:url-theme-ananke: https://themes.gohugo.io/gohugo-theme-ananke/
+
+This repository contains a couple of scripts and a Dockerfile to show how to
+use {url-docker}[docker] with a multi-stage Dockerfile to develop and deploy a
+static web site using {url-hugo}[Hugo], specifically we will use the _example
+site_ included with the {url-theme-ananke}[Ananke] theme.
