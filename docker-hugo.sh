@@ -49,12 +49,14 @@ push)
 run)
     case "$IMAGE_NAME" in
     hugo)
-        DOCKER_OPTS="-p 1313:1313 -v \"${WORKDIR}:/workdir\"" ;;
+        DOCKER_OPTS="-p 1313:1313";
+        DOCKER_OPTS="$DOCKER_OPTS -v \"${WORKDIR}:/workdir\"";
+        DOCKER_OPTS="$DOCKER_OPTS -u \"$(id -u):$(id -g)\"" ;;
     nginx-hugo)
         DOCKER_OPTS="-p 80:80" ;;
     esac
-    $ECHO docker run --interactive --tty --rm=true -d -u "$(id -u):$(id -g)" \
-                     $DOCKER_OPTS --name "$IMAGE_NAME" "$IMAGE_NAME" "$@";;
+    $ECHO docker run --interactive --tty --rm=true -d $DOCKER_OPTS \
+                     --name "$IMAGE_NAME" "$IMAGE_NAME" "$@";;
 stop)
     $ECHO docker stop "$IMAGE_NAME" ;;
 tag)
