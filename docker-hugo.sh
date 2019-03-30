@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
-# Show commands?
-ECHO=""
+# Show commands by default
+ECHO="echo"
 # Absolute script PATH
 CALLER_SCRIPT="$(readlink -f "$0")"
 # Absolute PATH to the script's directory
@@ -18,7 +18,7 @@ PUSH_IMAGE="registry.dogidoku.red/$IMAGE_NAME"
 # MAIN
 case "$IMAGE_NAME" in
 hugo|nginx-hugo)
-    if [ "$1" = "echo" ]; then ECHO="echo"; shift 1; fi ;;
+    if [ "$1" = "-x" ]; then ECHO=""; shift 1; fi ;;
 *) 
     echo "Unknown image '$IMAGE_NAME'"; exit 1 ;;
 esac
@@ -50,8 +50,8 @@ run)
     case "$IMAGE_NAME" in
     hugo)
         DOCKER_OPTS="-p 1313:1313";
-        DOCKER_OPTS="$DOCKER_OPTS -v \"${WORKDIR}:/workdir\"";
-        DOCKER_OPTS="$DOCKER_OPTS -u \"$(id -u):$(id -g)\"" ;;
+        DOCKER_OPTS="$DOCKER_OPTS -v ${WORKDIR}:/workdir";
+        DOCKER_OPTS="$DOCKER_OPTS -u $(id -u):$(id -g)" ;;
     nginx-hugo)
         DOCKER_OPTS="-p 80:80" ;;
     esac
@@ -81,7 +81,7 @@ tag)
     $ECHO docker tag "$SOURCE_NAME" "$TARGET_NAME" ;;
 *)
     cat << EOF
-Usage: $0 [echo] COMMAND
+Usage: $0 [-x] COMMAND
 
 Where COMMAND can be:
 
@@ -94,6 +94,8 @@ Where COMMAND can be:
 - run [ARGS]
 - stop
 - tag {pull [PULL_TAG] [LOCAL_TAG] | push [LOCAL_TAG] [PUSH_TAG]}
+
+By default the commands to run are shown, when using -x they are executed.
 EOF
 ;;
 esac
