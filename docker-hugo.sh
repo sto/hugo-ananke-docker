@@ -14,7 +14,7 @@ IMAGE_NAME="${SCRIPT_NAME##docker-}"
 IMAGE_NAME="${IMAGE_NAME%%.sh}"
 # Image names for pulling & pushing
 PULL_IMAGE="stodh/$IMAGE_NAME"
-PUSH_IMAGE="registry.dogidoku.red/$IMAGE_NAME"
+PUSH_IMAGE="registry.inusdoku.red/$IMAGE_NAME"
 # MAIN
 case "$IMAGE_NAME" in
 hugo|nginx-hugo)
