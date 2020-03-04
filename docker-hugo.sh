@@ -30,7 +30,7 @@ attach)
     $ECHO docker attach "$IMAGE_NAME" ;;
 build)
     [ -z "$1" ] && BUILD_NAME="$IMAGE_NAME" || BUILD_NAME="$IMAGE_NAME:$1";
-    $ECHO cd $CALLER_SCRIPT_DIR;
+    $ECHO cd $CALLER_SCRIPT_DIR \; ;
     $ECHO docker build --target "$IMAGE_NAME" -t "$BUILD_NAME" . ;;
 exec)
     if [ "$#" -eq "0" ]; then 

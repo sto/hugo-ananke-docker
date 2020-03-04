@@ -1,20 +1,21 @@
-FROM alpine:3.9 as hugo
+FROM alpine:3.11 as hugo
 # Docker to use hugo
-LABEL maintainer="Sergio Talens-Oliag <sto@iti.es>"
+LABEL maintainer="Sergio Talens-Oliag <sto@mixinet.net>"
 # Environment variables
-ENV HUGO_VERSION 0.54.0
-ENV HUGO_TARFILE hugo_${HUGO_VERSION}_Linux-64bit.tar.gz
-ENV HUGO_DOWNLOAD_BASEURL https://github.com/gohugoio/hugo/releases/download
+ENV GITHUB_REPO="gohugoio/hugo"
+ENV LATEST_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
+ENV REGEX="hugo_[0-9].*_Linux-64bit.tar.gz"
+ENV JQ_FILTER=".assets[]|select(.name|test(\"$REGEX\")).browser_download_url"
 # Download & install hugo binary
 RUN apk update \
-    && apk add --no-cache curl \
+    && apk add --no-cache curl jq \
     && cd /tmp \
-    && curl -L ${HUGO_DOWNLOAD_BASEURL}/v${HUGO_VERSION}/${HUGO_TARFILE} \
-        > /tmp/hugo.tgz \ 
+    && DOWNLOAD_URL="$(curl -s "$LATEST_URL" | jq -r "$JQ_FILTER")" \
+    && curl -sL "${DOWNLOAD_URL}" > /tmp/hugo.tgz \
     && cd /usr/bin \
     && tar xvzf /tmp/hugo.tgz hugo \
     && rm -f /tmp/hugo.tgz \
-    && apk del curl \
+    && apk del curl jq \
     && rm -rf /var/cache/apk/*
 # Adjust working directory
 WORKDIR /workdir/site
@@ -31,6 +32,6 @@ RUN cd /workdir/gohugo-theme-ananke/exampleSite \
     && rm -rf public \
     && hugo -b /
 
-FROM nginx:1.15.10-alpine as nginx-hugo
+FROM nginx:1.17.8-alpine as nginx-hugo
 COPY --from=compiled /workdir/gohugo-theme-ananke/exampleSite/public/. \
                      /usr/share/nginx/html

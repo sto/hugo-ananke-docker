@@ -1,5 +1,5 @@
 = Hugo Ananke Theme exampleSite in Docker
-Sergio Talens-Oliag <sto@iti.es>
+Sergio Talens-Oliag <sto@mixinet.net>
 :url-docker: https://docker.io/
 :url-hugo: https://gohugo.io/ 
 :url-theme-ananke: https://themes.gohugo.io/gohugo-theme-ananke/
