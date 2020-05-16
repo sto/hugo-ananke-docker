@@ -45,7 +45,7 @@ pull)
     $ECHO docker pull "$PULL_NAME" ;;
 push)
     [ -z "$1" ] && PUSH_NAME="$PUSH_IMAGE" || PUSH_NAME="$PUSH_IMAGE:$1";
-    $ECHO docker pull "$PUSH_NAME" ;;
+    $ECHO docker push "$PUSH_NAME" ;;
 run)
     case "$IMAGE_NAME" in
     hugo)
