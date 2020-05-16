@@ -19,7 +19,7 @@ RUN apk update \
     && rm -rf /var/cache/apk/*
 # Adjust working directory
 WORKDIR /workdir/site
-# Expose gollum default port
+# Expose hugo default port
 EXPOSE 1313
 # Run hugo as main process
 ENTRYPOINT ["/usr/bin/hugo"]
