@@ -1,4 +1,4 @@
-FROM alpine:3.11 as hugo
+FROM alpine:3.12 as hugo
 # Docker to use hugo
 LABEL maintainer="Sergio Talens-Oliag <sto@mixinet.net>"
 # Environment variables
@@ -32,6 +32,6 @@ RUN cd /workdir/gohugo-theme-ananke/exampleSite \
     && rm -rf public \
     && hugo -b /
 
-FROM nginx:1.17.8-alpine as nginx-hugo
+FROM nginx:1.19.3-alpine as nginx-hugo
 COPY --from=compiled /workdir/gohugo-theme-ananke/exampleSite/public/. \
                      /usr/share/nginx/html
